@@ -1,4 +1,4 @@
-import { getAuth } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import React from "react";
 import {
   View,
@@ -9,12 +9,13 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import Dialog from "react-native-dialog";
 import Header from "../shared/Header";
 import global from "../styles/global";
 import app from "../firebase";
 import data from "../data.json";
 import FlatButton from "../components/FlatButton";
-import { StackNavigationOptions } from "@react-navigation/stack";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 
 const providers = { "google.com": "Google" };
 
@@ -22,6 +23,13 @@ export default function Profile({ navigation }) {
   const auth = getAuth(app);
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
+  /* Update Vars */
+  const [name, setNewName] = React.useState("");
+  const [income, setNewIncome] = React.useState("0");
+  /* Dialog Open Status */
+  const [nameDialogOpen, setNameDialogOpen] = React.useState(false);
+  const [incomeDialogOpen, setIncomeDialogOpen] = React.useState(false);
+
   const [profile, setProfile] = React.useState({
     displayName: "",
     email: "",
@@ -34,6 +42,18 @@ export default function Profile({ navigation }) {
     console.log("Profile Refreshing");
     setRefreshing(false);
   };
+
+  const changeDisplayName = (name) => {
+    updateProfile(auth.currentUser, { displayName: name })
+      .then((_) => {
+        console.log("Changed Name");
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const changeIncome = (income) => {
+    profile.income = income;
+  }
 
   const logout = () => {
     auth
@@ -62,9 +82,50 @@ export default function Profile({ navigation }) {
         <RefreshControl refreshing={refreshing} onRefresh={refreshFunction} />
       }
       style={{ ...global.container, ...styles.profileContainer }}
-      scrollEnabled={false}
     >
-      <Header title="Profile" />
+      <Header navigation={navigation} title="Profile" />
+      {/** Dialogs */}
+      <Dialog.Container
+        visible={nameDialogOpen}
+        onBackdropPress={() => {
+          setNameDialogOpen(false);
+        }}
+      >
+        <Dialog.Title>Change Display Name</Dialog.Title>
+        <Dialog.Description>Change Your Display name</Dialog.Description>
+        <Dialog.Input placeholder="Enter New Name" onChangeText={(val) => {setNewName(val)}} value={name} />
+        <Dialog.Button
+          label="Update"
+          onPress={() => {
+            changeDisplayName(name);
+            setNameDialogOpen(false);
+          }}
+        />
+        <Dialog.Button
+          label="Cancel"
+          onPress={() => {
+            setNameDialogOpen(false);
+          }}
+        />
+      </Dialog.Container>
+      <Dialog.Container visible={incomeDialogOpen} onBackdropPress={() => {setIncomeDialogOpen(false);}}>
+        <Dialog.Title>Change Income</Dialog.Title>
+        <Dialog.Description>Change Monthly Income</Dialog.Description>
+        <Dialog.Input placeholder="Enter New Income" onChangeText={(val) => setNewIncome(val)} value={income} keyboardType="numeric" />
+        <Dialog.Button
+          label="Update"
+          onPress={() => {
+            changeIncome(income);
+            setIncomeDialogOpen(false);
+          }}
+        />
+        <Dialog.Button
+          label="Cancel"
+          onPress={() => {
+            setIncomeDialogOpen(false);
+          }}
+        />
+      </Dialog.Container>
       <View style={styles.profileCard}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <TouchableOpacity
@@ -85,10 +146,29 @@ export default function Profile({ navigation }) {
         </View>
         <View>
           <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-              {profile.displayName}
+            <View style={styles.rowContainer}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontFamily: "nunito-bold",
+                  fontSize: 20,
+                  color: "white",
+                }}
+              >
+                {profile.displayName}
+              </Text>
+              <TouchableOpacity
+                style={{ marginLeft: 10 }}
+                onPress={() => {
+                  setNameDialogOpen(true);
+                }}
+              >
+                <Feather name="edit" size={20} color="white" />
+              </TouchableOpacity>
+            </View>
+            <Text style={{ color: "white", fontFamily: "nunito-regular" }}>
+              {profile.email}
             </Text>
-            <Text>{profile.email}</Text>
           </View>
           <View
             style={{
@@ -98,22 +178,76 @@ export default function Profile({ navigation }) {
             }}
           />
           <View style={{ ...styles.rowContainer, marginTop: 10 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>Income</Text>
-            <Text style={{ marginLeft: 10, fontSize: 18 }}>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 18,
+                color: "white",
+                fontFamily: "nunito-bold",
+              }}
+            >
+              Income
+            </Text>
+            <Text
+              style={{
+                marginLeft: 10,
+                fontSize: 18,
+                color: "white",
+                fontFamily: "nunito-regular",
+              }}
+            >
               INR {profile.income}
             </Text>
+            <TouchableOpacity
+              style={{ marginLeft: 10 }}
+              onPress={() => {
+                setIncomeDialogOpen(true);
+              }}
+            >
+              <Feather name="edit" size={20} color="white" />
+            </TouchableOpacity>
           </View>
           <View style={{ ...styles.rowContainer, marginTop: 10 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 18,
+                color: "white",
+                fontFamily: "nunito-bold",
+              }}
+            >
               Spending Level
             </Text>
-            <Text style={{ marginLeft: 10, fontSize: 18 }}>Spending Level</Text>
+            <Text
+              style={{
+                marginLeft: 10,
+                fontSize: 18,
+                color: "white",
+                fontFamily: "nunito-regular",
+              }}
+            >
+              Spending Level
+            </Text>
           </View>
           <View style={{ ...styles.rowContainer, marginTop: 10 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 18,
+                color: "white",
+                fontFamily: "nunito-bold",
+              }}
+            >
               Sign In Method
             </Text>
-            <Text style={{ marginLeft: 10, fontSize: 18 }}>
+            <Text
+              style={{
+                marginLeft: 10,
+                fontSize: 18,
+                color: "white",
+                fontFamily: "nunito-regular",
+              }}
+            >
               {providers[auth.currentUser.providerData[0].providerId]}
             </Text>
           </View>
@@ -132,7 +266,14 @@ export default function Profile({ navigation }) {
             logout();
           }}
         >
-          <Text style={{ color: "red", fontWeight: "bold", fontSize: 16 }}>
+          <Text
+            style={{
+              color: "red",
+              fontWeight: "bold",
+              fontSize: 16,
+              fontFamily: "nunito-bold",
+            }}
+          >
             Log Out
           </Text>
         </FlatButton>
@@ -149,7 +290,14 @@ export default function Profile({ navigation }) {
             console.log("About Screen Invoked");
           }}
         >
-          <Text style={{ color: "blue", fontWeight: "bold", fontSize: 16 }}>
+          <Text
+            style={{
+              color: "blue",
+              fontWeight: "bold",
+              fontSize: 16,
+              fontFamily: "nunito-bold",
+            }}
+          >
             About Us
           </Text>
         </FlatButton>
@@ -175,6 +323,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     elevation: 1,
     borderRadius: 10,
+    backgroundColor: "black",
   },
   image: {
     height: 100,

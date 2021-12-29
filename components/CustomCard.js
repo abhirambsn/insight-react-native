@@ -3,7 +3,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { View, Text, StyleSheet } from "react-native";
 import FlipCard from "react-native-flip-card";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 
 export default function CustomCard({
   flipped = false,
@@ -13,8 +13,8 @@ export default function CustomCard({
   label = "",
   colors = ["#fff", "#000"],
   textColor = "black",
-  lastExpenseAmount=0,
-  pctSpent=0
+  lastExpenseAmount = 0,
+  pctSpent = 0,
 }) {
   return (
     <View style={{ ...styles.container, marginLeft: 10 }}>
@@ -39,11 +39,18 @@ export default function CustomCard({
                     color: textColor,
                     fontWeight: "bold",
                     fontSize: 18,
+                    fontFamily: "nunito-bold",
                   }}
                 >
                   {label}
                 </Text>
-                <Text style={{ ...styles.cardContent, color: textColor }}>
+                <Text
+                  style={{
+                    ...styles.cardContent,
+                    color: textColor,
+                    fontFamily: "nunito-regular",
+                  }}
+                >
                   {balance}
                 </Text>
               </View>
@@ -52,18 +59,25 @@ export default function CustomCard({
             )}
             {lastExpenseAmount ? (
               <View style={styles.columnContainer}>
-                  <View style={{height: 5}}/>
+                <View style={{ height: 5 }} />
                 <Text
                   style={{
                     ...styles.cardContent,
                     color: textColor,
                     fontWeight: "bold",
                     fontSize: 18,
+                    fontFamily: "nunito-bold",
                   }}
                 >
                   Last Expense Amount
                 </Text>
-                <Text style={{ ...styles.cardContent, color: textColor }}>
+                <Text
+                  style={{
+                    ...styles.cardContent,
+                    color: textColor,
+                    fontFamily: "nunito-regular",
+                  }}
+                >
                   {lastExpenseAmount}
                 </Text>
               </View>
@@ -71,20 +85,26 @@ export default function CustomCard({
               <></>
             )}
             {pctSpent ? (
-                
               <View style={styles.columnContainer}>
-                  <View style={{height: 5}}/>
+                <View style={{ height: 5 }} />
                 <Text
                   style={{
                     ...styles.cardContent,
                     color: textColor,
                     fontWeight: "bold",
                     fontSize: 18,
+                    fontFamily: "nunito-bold",
                   }}
                 >
                   % age of Income Spent
                 </Text>
-                <Text style={{ ...styles.cardContent, color: textColor }}>
+                <Text
+                  style={{
+                    ...styles.cardContent,
+                    color: textColor,
+                    fontFamily: "nunito-regular",
+                  }}
+                >
                   {pctSpent} {"%"}
                 </Text>
               </View>
@@ -100,11 +120,18 @@ export default function CustomCard({
                     color: textColor,
                     fontWeight: "bold",
                     fontSize: 18,
+                    fontFamily: "nunito-bold",
                   }}
                 >
                   Email
                 </Text>
-                <Text style={{ ...styles.cardContent, color: textColor }}>
+                <Text
+                  style={{
+                    ...styles.cardContent,
+                    color: textColor,
+                    fontFamily: "nunito-regular",
+                  }}
+                >
                   {email}
                 </Text>
               </View>
@@ -120,6 +147,7 @@ export default function CustomCard({
                     paddingTop: 20,
                     color: textColor,
                     fontWeight: "bold",
+                    fontFamily: "nunito-bold",
                   }}
                 >
                   {name}
@@ -128,11 +156,21 @@ export default function CustomCard({
             ) : (
               <></>
             )}
-            <View style={styles.rowContainer}>
-              <Text style={{ fontSize: 14, color: textColor }}>
-                * Tap to see more actions
-              </Text>
-            </View>
+            {name ? (
+              <View style={styles.rowContainer}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: textColor,
+                    fontFamily: "nunito-regular",
+                  }}
+                >
+                  * Tap to see more actions
+                </Text>
+              </View>
+            ) : (
+              <></>
+            )}
           </View>
         </LinearGradient>
         <LinearGradient
@@ -141,22 +179,48 @@ export default function CustomCard({
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 0 }}
         >
-          {email ? (<View style={{ ...styles.columnContainer, padding: 10, alignItems: 'center', justifyContent: 'center' }}>
-            <Text
-              style={{ color: textColor, fontWeight: "bold", fontSize: 18 }}
+          {email ? (
+            <View
+              style={{
+                ...styles.columnContainer,
+                padding: 10,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              Actions
-            </Text>
-            <View style={styles.columnContainer}>
-                <TouchableOpacity style={styles.actionBtn} onPress={() => console.log("Change Data")}>
-                    <View style={styles.rowContainer}>
-                        <AntDesign name="edit" size={20} color="black" />
-                        <Text style={{color: "black", marginLeft: 4}}>Modify Data</Text>
-                    </View>
-                    
+              <Text
+                style={{
+                  color: textColor,
+                  fontWeight: "bold",
+                  fontSize: 18,
+                  fontFamily: "nunito-bold",
+                }}
+              >
+                Actions
+              </Text>
+              <View style={styles.columnContainer}>
+                <TouchableOpacity
+                  style={styles.actionBtn}
+                  onPress={() => console.log("Change Data")}
+                >
+                  <View style={styles.rowContainer}>
+                    <AntDesign name="edit" size={20} color="black" />
+                    <Text
+                      style={{
+                        color: "black",
+                        marginLeft: 4,
+                        fontFamily: "nunito-regular",
+                      }}
+                    >
+                      Modify Data
+                    </Text>
+                  </View>
                 </TouchableOpacity>
+              </View>
             </View>
-          </View>) : (<></>)}
+          ) : (
+            <></>
+          )}
         </LinearGradient>
       </FlipCard>
     </View>
@@ -180,14 +244,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   actionBtn: {
-      marginTop: 20,
-      padding: 10,
-      borderRadius: 30,
-      backgroundColor: 'whitesmoke',
-      opacity: 0.5,
-      width: "50%",
-      height: "50%",
-      justifyContent: 'center',
-      alignItems: 'center'
-  }
+    marginTop: 20,
+    padding: 10,
+    borderRadius: 30,
+    backgroundColor: "whitesmoke",
+    opacity: 0.5,
+    width: "50%",
+    height: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

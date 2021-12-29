@@ -23,7 +23,7 @@ import CustomCard from "../components/CustomCard";
 import ExpenseListItem from "../components/ExpenseListItem";
 import Header from "../shared/Header";
 
-export default function Dashboard() {
+export default function Dashboard({navigation}) {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [profile, setProfile] = useState({ email: "", income: 0 });
@@ -63,8 +63,8 @@ export default function Dashboard() {
   }, [profile, expenses]);
 
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshFunction} />} style={{ ...global.container, ...styles.dashboardContainer }} scrollEnabled={false}>
-      <Header title="My Dashboard" />
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshFunction} />} style={{ ...global.container, ...styles.dashboardContainer }}>
+      <Header navigation={navigation} title="My Dashboard" />
       <View style={styles.mainContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <CustomCard

@@ -11,7 +11,7 @@ export default function Header({ navigation, title }) {
         <TouchableHighlight
           style={styles.imageContainer}
           onPress={() => {
-            console.log("Pressed");
+            navigation.navigate("Profile");
           }}
         >
           <Image
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontWeight: "bold",
     fontSize: 20,
+    fontFamily: "nunito-bold"
   },
   imageContainer: {
     borderRadius: 50,
