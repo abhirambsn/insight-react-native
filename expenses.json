@@ -1,0 +1,22 @@
+[
+    {
+        "email": "elflord.computers@gmail.com",
+        "expenses": [
+            {"expenseId": "1122", "expenseName": "Test1", "amount": 100, "type": "o", "dateAdded": "12/28/2021"},
+            {"expenseId": "1123", "expenseName": "Test2", "amount": 200, "type": "r", "dateAdded": "12/28/2021"},
+            {"expenseId": "1023", "expenseName": "Test3", "amount": 600, "type": "r", "dateAdded": "12/28/2021"},
+            {"expenseId": "1224", "expenseName": "Test4", "amount": 900, "type": "o", "dateAdded": "12/28/2021"},
+            {"expenseId": "1026", "expenseName": "Test5", "amount": 1200, "type": "r", "dateAdded": "12/28/2021"},
+            {"expenseId": "1220", "expenseName": "Test6", "amount": 300, "type": "r", "dateAdded": "12/28/2021"}
+        ]
+    },
+    {
+        "email": "abhirambsn@gmail.com",
+        "expenses": [
+            {"expenseId": "1022", "expenseName": "Test1", "amount": 100, "type": "o", "dateAdded": "12/28/2021"},
+            {"expenseId": "1222", "expenseName": "Test2", "amount": 200, "type": "r", "dateAdded": "12/28/2021"},
+            {"expenseId": "1023", "expenseName": "Test3", "amount": 600, "type": "r", "dateAdded": "12/28/2021"},
+            {"expenseId": "1224", "expenseName": "Test4", "amount": 900, "type": "o", "dateAdded": "12/28/2021"}
+        ]
+    }
+]
